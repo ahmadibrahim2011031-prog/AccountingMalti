@@ -1,0 +1,61 @@
+<\!DOCTYPE html>
+<html>
+<head>
+    <title>Cache Cleared - New Build Structure</title>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding: 50px; }
+        .container { max-width: 600px; margin: 0 auto; }
+        .success { color: #28a745; }
+        .info { color: #007bff; margin: 20px 0; }
+        .button { 
+            background: #007bff; 
+            color: white; 
+            padding: 10px 20px; 
+            border: none; 
+            border-radius: 5px; 
+            cursor: pointer; 
+            font-size: 16px;
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="success">✅ Build Structure Updated\!</h1>
+        <p class="info">Your website has been updated with a new simplified build structure:</p>
+        <ul style="text-align: left; display: inline-block;">
+            <li>✅ No more chunk files</li>
+            <li>✅ Single bundle approach</li>
+            <li>✅ No more ChunkLoadError</li>
+            <li>✅ Simplified and reliable</li>
+        </ul>
+        <p><strong>Your browser cache has been cleared.</strong></p>
+        <button class="button" onclick="goToDashboard()">Go to Dashboard</button>
+        <button class="button" onclick="goToLogin()">Go to Login</button>
+    </div>
+    <script>
+        // Clear any remaining cache
+        if ('caches' in window) {
+            caches.keys().then(names => {
+                names.forEach(name => caches.delete(name));
+            });
+        }
+        
+        function goToDashboard() {
+            window.location.href = '/pages/dashboard';
+        }
+        
+        function goToLogin() {
+            window.location.href = '/pages/login';
+        }
+        
+        // Auto-redirect after 5 seconds
+        setTimeout(() => {
+            window.location.href = '/pages/dashboard';
+        }, 5000);
+    </script>
+</body>
+</html>

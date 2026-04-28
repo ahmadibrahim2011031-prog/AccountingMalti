@@ -1,0 +1,202 @@
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native"]
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// ─── Auth Models ─────────────────────────────────────────────────────────────
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@index([userId])
+  @@map("accounts")
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("sessions")
+}
+
+model User {
+  id            String         @id @default(cuid())
+  name          String
+  email         String         @unique
+  password      String
+  emailVerified DateTime?      @map("emailVerified")
+  image         String?
+  phone         String?
+  role          UserRole       @default(ADMIN)
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  accounts      Account[]
+  notifications Notification[]
+  sessions      Session[]
+
+  @@map("users")
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+  @@map("verification_tokens")
+}
+
+model Notification {
+  id        String           @id @default(cuid())
+  userId    String?
+  title     String
+  message   String
+  type      NotificationType
+  isRead    Boolean          @default(false)
+  actionUrl String?
+  createdAt DateTime         @default(now())
+  user      User?            @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([isRead])
+  @@index([type])
+  @@map("notifications")
+}
+
+// ─── Accounting Models ────────────────────────────────────────────────────────
+
+model AccountingAccount {
+  id                    String                 @id @default(cuid())
+  accountNumber         String                 @unique
+  name                  String
+  nameAr                String?
+  type                  AccountingType
+  category              String?
+  expenseClassification ExpenseClassification?
+  parentId              String?
+  parent                AccountingAccount?     @relation("AccountHierarchy", fields: [parentId], references: [id], onDelete: Cascade)
+  children              AccountingAccount[]    @relation("AccountHierarchy")
+  level                 Int                    @default(0)
+  isPostable            Boolean                @default(true)
+  balance               Decimal                @default(0) @db.Decimal(15, 2)
+  nature                NatureType             @default(DEBIT)
+  isActive              Boolean                @default(true)
+  journalEntries        JournalEntryDetail[]
+  createdAt             DateTime               @default(now())
+  updatedAt             DateTime               @updatedAt
+
+  @@index([parentId])
+  @@index([type])
+  @@index([accountNumber])
+  @@map("accounting_accounts")
+}
+
+model JournalEntry {
+  id            String               @id @default(cuid())
+  journalNumber String               @unique
+  date          DateTime
+  description   String               @db.Text
+  totalAmount   Decimal              @db.Decimal(15, 2)
+  type          JournalEntryType     @default(DAILY)
+  status        JournalEntryStatus   @default(DRAFT)
+  userId        String?
+  reference     String?
+  documentUrl   String?
+  details       JournalEntryDetail[]
+  createdAt     DateTime             @default(now())
+  updatedAt     DateTime             @updatedAt
+
+  @@index([date])
+  @@index([journalNumber])
+  @@map("journal_entries")
+}
+
+model JournalEntryDetail {
+  id         String            @id @default(cuid())
+  journalId  String
+  journal    JournalEntry      @relation(fields: [journalId], references: [id], onDelete: Cascade)
+  accountId  String
+  account    AccountingAccount @relation(fields: [accountId], references: [id])
+  debit      Decimal           @default(0) @db.Decimal(15, 2)
+  credit     Decimal           @default(0) @db.Decimal(15, 2)
+  notes      String?           @db.Text
+  lineNumber Int
+  createdAt  DateTime          @default(now())
+
+  @@index([journalId])
+  @@index([accountId])
+  @@map("journal_entry_details")
+}
+
+// ─── Enums ────────────────────────────────────────────────────────────────────
+
+enum UserRole {
+  ADMIN
+  MANAGER
+  ACCOUNTANT
+  VIEWER
+}
+
+enum NotificationType {
+  INFO
+  WARNING
+  ERROR
+  SUCCESS
+}
+
+enum AccountingType {
+  ASSET
+  LIABILITY
+  EQUITY
+  REVENUE
+  EXPENSE
+}
+
+enum NatureType {
+  DEBIT
+  CREDIT
+}
+
+enum JournalEntryType {
+  OPENING
+  DAILY
+  ADJUSTMENT
+  CLOSING
+}
+
+enum JournalEntryStatus {
+  DRAFT
+  POSTED
+  CANCELLED
+}
+
+enum ExpenseClassification {
+  OPERATIONAL
+  ADMINISTRATIVE
+  MARKETING
+  FINANCIAL
+  DEPRECIATION
+  OTHER
+}

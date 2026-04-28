@@ -1,0 +1,1216 @@
+/* src/app/globals.css - UNIFIED MODERN VERSION WITH HSL + ARABIC SPACING IMPROVEMENTS + LANDING PAGE ENHANCEMENTS */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@custom-variant dark (&:is(.dark *));
+@custom-variant rtl (&:is([dir="rtl"] *));
+@custom-variant ar (&:is([lang="ar"] *));
+
+@theme inline {
+  /* ================================
+     COLOR SYSTEM (HSL FORMAT)
+     ================================ */
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  
+  /* Brand Colors for Qatar (HSL) */
+  --color-qatar-maroon: hsl(344 76% 31%);
+  --color-qatar-white: hsl(0 0% 100%);
+  --color-qatar-gold: hsl(51 100% 50%);
+  
+  /* Font System */
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --font-arabic: var(--font-cairo);
+  --font-english: var(--font-inter);
+  
+  /* Sidebar System */
+  --color-sidebar-ring: hsl(var(--sidebar-ring));
+  --color-sidebar-border: hsl(var(--sidebar-border));
+  --color-sidebar-accent-foreground: hsl(var(--sidebar-accent-foreground));
+  --color-sidebar-accent: hsl(var(--sidebar-accent));
+  --color-sidebar-primary-foreground: hsl(var(--sidebar-primary-foreground));
+  --color-sidebar-primary: hsl(var(--sidebar-primary));
+  --color-sidebar-foreground: hsl(var(--sidebar-foreground));
+  --color-sidebar: hsl(var(--sidebar));
+  
+  /* Chart Colors (HSL) */
+  --color-chart-5: hsl(var(--chart-5));
+  --color-chart-4: hsl(var(--chart-4));
+  --color-chart-3: hsl(var(--chart-3));
+  --color-chart-2: hsl(var(--chart-2));
+  --color-chart-1: hsl(var(--chart-1));
+  
+  /* Base System */
+  --color-ring: hsl(var(--ring));
+  --color-input: hsl(var(--input));
+  --color-border: hsl(var(--border));
+  --color-destructive: hsl(var(--destructive));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-accent: hsl(var(--accent));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-muted: hsl(var(--muted));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-secondary: hsl(var(--secondary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-primary: hsl(var(--primary));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+  --color-popover: hsl(var(--popover));
+  --color-card-foreground: hsl(var(--card-foreground));
+  --color-card: hsl(var(--card));
+  
+  /* Radius System */
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  
+  /* Qatar Delivery Specific Colors (HSL) */
+  --color-delivery-pending: hsl(43 96% 56%);
+  --color-delivery-active: hsl(217 91% 60%);
+  --color-delivery-completed: hsl(142 76% 36%);
+  --color-delivery-cancelled: hsl(0 84% 60%);
+  
+  /* Status Colors (HSL) */
+  --color-status-active: hsl(142 76% 36%);
+  --color-status-inactive: hsl(215 14% 34%);
+  --color-status-warning: hsl(43 96% 56%);
+  --color-status-error: hsl(0 84% 60%);
+  --color-status-expired: hsl(0 84% 60%);
+  --color-status-expiring: hsl(43 96% 56%);
+  --color-status-valid: hsl(142 76% 36%);
+}
+
+:root {
+    /* ================================
+       SHADCN/UI THEME VARIABLES (HSL)
+       ================================ */
+    --radius: 0.625rem;
+    
+    /* Base colors */
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    
+    /* Card colors */
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    
+    /* Popover colors */
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    
+    /* Primary colors */
+    --primary: 222.2 47.4% 11.2%;
+    --primary-foreground: 210 40% 98%;
+    
+    /* Secondary colors */
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    
+    /* Muted colors */
+    --muted: 210 40% 96%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    
+    /* Accent colors */
+    --accent: 210 40% 96%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    
+    /* Destructive colors */
+    --destructive: 0 72.2% 50.6%;
+    --destructive-foreground: 210 40% 98%;
+    
+    /* Border and input colors */
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 222.2 84% 4.9%;
+    
+    /* ================================
+       CHART COLORS
+       ================================ */
+    --chart-1: 12 76% 61%;    /* Orange */
+    --chart-2: 173 58% 39%;   /* Teal */
+    --chart-3: 197 37% 24%;   /* Blue */
+    --chart-4: 43 74% 66%;    /* Yellow */
+    --chart-5: 27 87% 67%;    /* Red-orange */
+    
+    /* ================================
+       SIDEBAR COLORS
+       ================================ */
+    --sidebar: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 10.6% 64.9%;
+    
+    /* ================================
+       DELIVERY APP SPECIFIC COLORS
+       ================================ */
+    --success: 142 76% 36%;
+    --success-foreground: 355.7 100% 97.3%;
+    --warning: 32 95% 44%;
+    --warning-foreground: 210 40% 98%;
+    --info: 221.2 83.2% 53.3%;
+    --info-foreground: 210 40% 98%;
+  }
+
+  .dark {
+    /* ================================
+       DARK THEME VARIABLES
+       ================================ */
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    
+    /* Card colors */
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    
+    /* Popover colors */
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    
+    /* Primary colors */
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 84% 4.9%;
+    
+    /* Secondary colors */
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    
+    /* Muted colors */
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    
+    /* Accent colors */
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    
+    /* Destructive colors */
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    
+    /* Border and input colors */
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+    
+    /* ================================
+       DARK MODE CHART COLORS
+       ================================ */
+    --chart-1: 220 70% 50%;   /* Blue */
+    --chart-2: 160 60% 45%;   /* Green */
+    --chart-3: 30 80% 55%;    /* Orange */
+    --chart-4: 280 65% 60%;   /* Purple */
+    --chart-5: 340 75% 55%;   /* Pink */
+    
+    /* ================================
+       DARK MODE SIDEBAR COLORS
+       ================================ */
+    --sidebar: 222.2 84% 4.9%;
+    --sidebar-foreground: 210 40% 98%;
+    --sidebar-primary: 224 71.4% 4.1%;
+    --sidebar-primary-foreground: 210 40% 98%;
+    --sidebar-accent: 217.2 32.6% 17.5%;
+    --sidebar-accent-foreground: 210 40% 98%;
+    --sidebar-border: 217.2 32.6% 17.5%;
+    --sidebar-ring: 217.2 10.6% 64.9%;
+    
+    /* ================================
+       DARK MODE APP SPECIFIC COLORS
+       ================================ */
+    --success: 142 70% 45%;
+    --success-foreground: 144.9 80.4% 10%;
+    --warning: 32 85% 55%;
+    --warning-foreground: 20.5 90.2% 4.3%;
+    --info: 221.2 83.2% 63.3%;
+    --info-foreground: 210 40% 98%;
+  }
+
+/* ================================
+   BASE LAYER 
+   ================================ */
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  
+  body {
+    @apply bg-background text-foreground;
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    /* Support for Qatar's right-to-left layout */
+    &[lang="ar"] {
+      direction: rtl;
+    }
+    &[lang="en"] {
+      direction: ltr;
+    }
+  }
+
+  /* ================================
+     DIRECTION SUPPORT 
+     ================================ */
+  
+  html[dir="rtl"] {
+    direction: rtl;
+  }
+  
+  html[dir="ltr"] {
+    direction: ltr;
+  }
+  
+  .rtl {
+    direction: rtl;
+    text-align: right;
+  }
+  
+  .ltr {
+    direction: ltr;
+    text-align: left;
+  }
+
+  /* RTL space utilities */
+  .rtl .space-x-reverse > :not([hidden]) ~ :not([hidden]) {
+    --tw-space-x-reverse: 1;
+    margin-right: calc(var(--tw-space-x) * var(--tw-space-x-reverse));
+    margin-left: calc(var(--tw-space-x) * calc(1 - var(--tw-space-x-reverse)));
+  }
+
+  /* ================================
+     LANDING PAGE RTL SPACING FIXES
+     ================================ */
+  
+  /* RTL Support for English numbers in landing page */
+  .font-english {
+    font-family: 'Inter', 'Roboto', 'Arial', sans-serif !important;
+    direction: ltr !important;
+    unicode-bidi: embed;
+  }
+
+  /* Landing page specific RTL spacing fixes */
+  .rtl .space-x-3 > :not([hidden]) ~ :not([hidden]) {
+    --tw-space-x-reverse: 1;
+    margin-right: calc(0.75rem * var(--tw-space-x-reverse));
+    margin-left: calc(0.75rem * calc(1 - var(--tw-space-x-reverse)));
+  }
+
+  .rtl .space-x-4 > :not([hidden]) ~ :not([hidden]) {
+    --tw-space-x-reverse: 1;
+    margin-right: calc(1rem * var(--tw-space-x-reverse));
+    margin-left: calc(1rem * calc(1 - var(--tw-space-x-reverse)));
+  }
+
+  .rtl .space-x-8 > :not([hidden]) ~ :not([hidden]) {
+    --tw-space-x-reverse: 1;
+    margin-right: calc(2rem * var(--tw-space-x-reverse));
+    margin-left: calc(2rem * calc(1 - var(--tw-space-x-reverse)));
+  }
+
+  /* ================================
+     TYPOGRAPHY & FONTS 
+     ================================ */
+  
+  /* Arabic font styling - Qatar specific */
+  [lang="ar"] {
+    font-family: 'Cairo', 'Segoe UI', 'Tahoma', 'Arial', sans-serif;
+    font-feature-settings: 'liga' 1, 'kern' 1;
+    /* Better Arabic text rendering */
+    text-rendering: optimizeSpeed;
+    font-variant-ligatures: common-ligatures;
+  }
+  
+  [lang="en"] {
+    font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+    font-feature-settings: 'liga' 1, 'kern' 1;
+  }
+
+  /* Font family utilities */
+  .font-cairo {
+    font-family: var(--font-cairo), 'Cairo', sans-serif;
+  }
+  
+  .font-inter {
+    font-family: var(--font-inter), 'Inter', sans-serif;
+  }
+
+  /* ================================
+     QATAR & ARABIC SPECIFIC STYLES 
+     ================================ */
+
+  /* Number formatting for Arabic (keep LTR for numbers) */
+  [lang="ar"] .number,
+  .number-ltr {
+    font-family: 'Inter', 'Segoe UI', monospace;
+    direction: ltr;
+    display: inline-block;
+    unicode-bidi: bidi-override;
+  }
+
+  /* Currency display - QAR positioning */
+  .currency {
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  [lang="ar"] .currency {
+    margin-right: 0.25rem;
+  }
+
+  [lang="en"] .currency {
+    margin-left: 0.25rem;
+  }
+
+  /* Date and time formatting - Qatar timezone aware */
+  .datetime {
+    font-variant-numeric: tabular-nums;
+  }
+
+  [lang="ar"] .datetime {
+    direction: ltr;
+    text-align: left;
+  }
+
+  /* Qatar ID numbers and official documents */
+  .qatar-id {
+    font-family: 'Inter', monospace;
+    direction: ltr;
+    letter-spacing: 0.05em;
+  }
+
+  /* ================================
+     FORM & INPUT ENHANCEMENTS 
+     ================================ */
+
+  /* Input field RTL support */
+  [lang="ar"] input[type="email"],
+  [lang="ar"] input[type="url"],
+  [lang="ar"] input[type="tel"] {
+    direction: ltr;
+    text-align: left;
+  }
+
+  [lang="ar"] input[type="number"] {
+    direction: ltr;
+  }
+
+  /* Placeholder text alignment */
+  [lang="ar"] input::placeholder,
+  [lang="ar"] textarea::placeholder {
+    text-align: right;
+  }
+
+  [lang="en"] input::placeholder,
+  [lang="en"] textarea::placeholder {
+    text-align: left;
+  }
+}
+
+/* ================================
+   COMPONENTS LAYER 
+   ================================ */
+
+@layer components {
+  /* ================================
+     DASHBOARD COMPONENTS 
+     ================================ */
+
+  .dashboard-card {
+    @apply bg-card text-card-foreground rounded-xl shadow-sm border p-6 
+           transition-all duration-200 hover:shadow-md;
+  }
+
+  .dashboard-card-clickable {
+    @apply dashboard-card cursor-pointer group hover:border-muted-foreground/20;
+  }
+
+  .dashboard-stat-icon {
+    @apply w-12 h-12 rounded-lg flex items-center justify-center 
+           group-hover:scale-110 transition-transform duration-200;
+  }
+
+  .dashboard-stat-change {
+    @apply text-sm px-2 py-1 rounded-full font-medium;
+  }
+
+  .dashboard-stat-change-positive {
+    @apply dashboard-stat-change text-green-600 bg-green-50 dark:text-green-400 dark:bg-green-900/20;
+  }
+
+  .dashboard-stat-change-negative {
+    @apply dashboard-stat-change text-red-600 bg-red-50 dark:text-red-400 dark:bg-red-900/20;
+  }
+
+  /* ================================
+     LANDING PAGE COMPONENTS
+     ================================ */
+
+  /* Landing page icon and text containers for better RTL/LTR support */
+  .landing-icon-container {
+    @apply w-12 h-12 rounded-full flex items-center justify-center;
+    min-width: 3rem;
+    min-height: 3rem;
+  }
+
+  .landing-text-container {
+    @apply flex-1;
+    min-width: 0; /* Allows text to wrap properly */
+  }
+
+  /* RTL specific spacing adjustments for landing page */
+  [dir="rtl"] .landing-text-container {
+    text-align: right;
+  }
+
+  [dir="ltr"] .landing-text-container {
+    text-align: left;
+  }
+
+  /* Feature items with proper RTL/LTR alignment */
+  .feature-item-rtl {
+    @apply flex items-start gap-4 flex-row-reverse;
+  }
+
+  .feature-item-ltr {
+    @apply flex items-start gap-4;
+  }
+
+  /* Contact section spacing improvements */
+  .contact-item-spacing {
+    gap: 0.75rem; /* 12px for RTL - tighter spacing */
+  }
+
+  .contact-item-spacing-ltr {
+    gap: 1rem; /* 16px for LTR - standard spacing */
+  }
+
+  /* Better hover states for landing page navigation */
+  .landing-nav-link {
+    @apply text-gray-700 hover:text-red-600 hover:bg-red-50 px-3 py-2 rounded-md transition-colors relative overflow-hidden;
+  }
+
+  /* Improved navigation hover effects for landing page */
+  .landing-nav-link::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(220, 38, 38, 0.1), transparent);
+    transition: left 0.5s;
+  }
+
+  .landing-nav-link:hover::before {
+    left: 100%;
+  }
+
+  /* RTL adjustments for navigation hover effects */
+  :is([dir="rtl"] *) .landing-nav-link::before {
+    left: auto;
+    right: -100%;
+  }
+
+  :is([dir="rtl"] *) .landing-nav-link:hover::before {
+    right: 100%;
+    left: auto;
+  }
+
+  /* Landing page card hover effects */
+  .landing-card {
+    @apply transition-all duration-300 ease-out;
+  }
+
+  .landing-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  }
+
+  /* Landing page button enhancements */
+  .btn-landing-primary {
+    @apply bg-red-600 hover:bg-red-700 text-white transition-all duration-200 ease-in-out;
+    background: linear-gradient(135deg, hsl(0 84% 60%) 0%, hsl(0 84% 50%) 100%);
+    box-shadow: 0 4px 14px 0 rgba(220, 38, 38, 0.25);
+  }
+
+  .btn-landing-primary:hover {
+    box-shadow: 0 6px 20px 0 rgba(220, 38, 38, 0.35);
+    transform: translateY(-1px);
+  }
+
+  /* Landing page form enhancements */
+  .landing-form-input {
+    @apply transition-all duration-200 ease-in-out;
+  }
+
+  .landing-form-input:focus {
+    box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+    border-color: hsl(0 84% 60%);
+  }
+
+  /* Landing page stats section improvements */
+  .stats-number {
+    font-variant-numeric: tabular-nums;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+
+  /* Landing page hero section enhancements */
+  .hero-gradient {
+    background: linear-gradient(135deg, 
+      hsl(0 100% 97%) 0%, 
+      hsl(0 0% 100%) 25%, 
+      hsl(51 100% 97%) 100%);
+  }
+
+  /* Landing page WhatsApp button enhancement */
+  .whatsapp-float {
+    animation: pulse-green 2s infinite;
+  }
+
+  /* ================================
+     ALERT COMPONENTS 
+     ================================ */
+
+  .alert-base {
+    @apply p-4 rounded-lg cursor-pointer hover:shadow-sm transition-shadow;
+  }
+
+  .alert-warning {
+    @apply alert-base bg-yellow-50 border-l-4 border-yellow-400 dark:bg-yellow-900/20 dark:border-yellow-500;
+  }
+
+  .alert-error {
+    @apply alert-base bg-red-50 border-l-4 border-red-400 dark:bg-red-900/20 dark:border-red-500;
+  }
+
+  .alert-info {
+    @apply alert-base bg-blue-50 border-l-4 border-blue-400 dark:bg-blue-900/20 dark:border-blue-500;
+  }
+
+  .alert-success {
+    @apply alert-base bg-green-50 border-l-4 border-green-400 dark:bg-green-900/20 dark:border-green-500;
+  }
+
+  /* ================================
+     NAVIGATION COMPONENTS 
+     ================================ */
+
+  .sidebar-item {
+    @apply flex items-center px-4 py-3 text-sidebar-foreground/70 
+           hover:bg-sidebar-accent hover:text-sidebar-accent-foreground 
+           transition-colors duration-150 rounded-lg;
+  }
+
+  .sidebar-item-active {
+    @apply sidebar-item bg-sidebar-accent text-sidebar-accent-foreground font-medium;
+  }
+
+  .sidebar-icon {
+    @apply w-5 h-5 flex-shrink-0 mr-3;
+  }
+
+  :is([dir="rtl"] *) .sidebar-icon {
+    @apply mr-0 ml-3;
+  }
+
+  /* ================================
+     ARABIC SIDEBAR SPACING IMPROVEMENTS
+     ================================ */
+
+  /* تحسين التباعد في RTL */
+  [dir="rtl"] .sidebar-item {
+    direction: rtl;
+  }
+
+  [dir="rtl"] .sidebar-item .sidebar-icon {
+    margin-right: 0;
+    margin-left: 0.75rem;
+  }
+
+  [lang="ar"] .sidebar-text {
+    font-family: 'Cairo', 'Segoe UI', 'Tahoma', 'Arial', sans-serif;
+    font-weight: 500;
+  }
+
+  /* تحسين النصوص العربية في الشريط الجانبي */
+  [lang="ar"] .sidebar-title {
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+  }
+
+  [lang="ar"] .sidebar-subtitle {
+    font-family: 'Cairo', sans-serif;
+    font-weight: 400;
+    letter-spacing: 0;
+  }
+
+  /* إصلاح مشكلة التباعد المزدوج */
+  .rtl .space-x-reverse > :not([hidden]) ~ :not([hidden]) {
+    --tw-space-x-reverse: 1;
+    margin-right: calc(0.75rem * var(--tw-space-x-reverse));
+    margin-left: calc(0.75rem * calc(1 - var(--tw-space-x-reverse)));
+  }
+
+  /* تحسين التباعد في العناصر النشطة */
+  [dir="rtl"] .sidebar-item.active {
+    border-right: none;
+    border-left: 4px solid #2563eb;
+  }
+
+  /* تحسين التباعد للأيقونات */
+  [dir="rtl"] .sidebar-icon {
+    margin-left: 0.75rem;
+    margin-right: 0;
+  }
+
+  .btn-with-icon {
+    @apply inline-flex items-center gap-2;
+    flex-direction: row !important;
+  }
+
+  .btn-with-icon svg {
+    @apply w-4 h-4 flex-shrink-0;
+  }
+
+  /* Fix button spacing in RTL - use proper order instead of flex-row-reverse */
+  [dir="rtl"] .btn-with-icon {
+    @apply inline-flex items-center gap-2;
+    flex-direction: row !important;
+  }
+
+  /* Clean button fixes - no conflicts */
+  
+  /* Action button improvements */
+  .action-button {
+    @apply flex items-center justify-center gap-1 min-w-[2rem] h-8;
+  }
+  
+  .action-button-with-text {
+    @apply action-button px-3;
+  }
+  
+  .action-button-icon-only {
+    @apply action-button w-8;
+  }
+  
+  /* Table action buttons spacing */
+  .table-actions {
+    @apply flex items-center gap-1;
+  }
+  
+  [dir="rtl"] .table-actions {
+    @apply flex-row-reverse;
+  }
+
+  /* ================================
+     BUTTON COMPONENTS 
+     ================================ */
+
+  .btn-primary {
+    @apply bg-primary text-primary-foreground px-4 py-2 rounded-lg font-medium
+           hover:bg-primary/90 focus:outline-none focus:ring-2 
+           focus:ring-ring focus:ring-offset-2 
+           transition-colors duration-150 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-secondary {
+    @apply bg-secondary text-secondary-foreground px-4 py-2 rounded-lg font-medium
+           hover:bg-secondary/80 focus:outline-none focus:ring-2 
+           focus:ring-ring focus:ring-offset-2 
+           transition-colors duration-150 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-danger {
+    @apply bg-destructive text-destructive-foreground px-4 py-2 rounded-lg font-medium
+           hover:bg-destructive/90 focus:outline-none focus:ring-2 
+           focus:ring-ring focus:ring-offset-2 
+           transition-colors duration-150 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  /* ================================
+     STATUS BADGES 
+     ================================ */
+
+  .status-badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+  }
+
+  .status-active {
+    @apply status-badge bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400;
+  }
+
+  .status-inactive {
+    @apply status-badge bg-muted text-muted-foreground;
+  }
+
+  .status-warning {
+    @apply status-badge bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400;
+  }
+
+  .status-error {
+    @apply status-badge bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400;
+  }
+
+  .status-expired {
+    @apply status-badge bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400;
+  }
+
+  .status-expiring {
+    @apply status-badge bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400;
+  }
+
+  .status-valid {
+    @apply status-badge bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400;
+  }
+
+  /* ================================
+     QATAR SPECIFIC COMPONENTS 
+     ================================ */
+
+  .qatar-card {
+    @apply dashboard-card border-l-4 border-[hsl(var(--color-qatar-maroon))];
+  }
+
+  .qatar-flag-gradient {
+    background: linear-gradient(to right, hsl(var(--color-qatar-maroon)), hsl(var(--color-qatar-white)));
+  }
+
+  .delivery-status-pending {
+    @apply status-badge bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400;
+  }
+
+  .delivery-status-active {
+    @apply status-badge bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-400;
+  }
+
+  .delivery-status-completed {
+    @apply status-badge bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400;
+  }
+
+  .delivery-status-cancelled {
+    @apply status-badge bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400;
+  }
+
+  /* Document expiry warnings */
+  .document-expiry-soon {
+    @apply bg-yellow-50 border border-yellow-200 text-yellow-800 dark:bg-yellow-900/10 dark:text-yellow-400;
+  }
+
+  .document-expired {
+    @apply bg-red-50 border border-red-200 text-red-800 dark:bg-red-900/10 dark:text-red-400;
+  }
+}
+
+/* ================================
+   UTILITIES LAYER 
+   ================================ */
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* RTL direction utility */
+  .direction-rtl {
+    direction: rtl;
+  }
+
+  .direction-ltr {
+    direction: ltr;
+  }
+
+  /* Number formatting for RTL - Enhanced for landing page */
+  .number-ltr {
+    direction: ltr;
+    text-align: left;
+    font-family: 'Inter', 'Segoe UI', monospace;
+    unicode-bidi: plaintext;
+  }
+
+  [dir="rtl"] .number-ltr {
+    text-align: right;
+    unicode-bidi: plaintext;
+  }
+
+  /* RTL-aware margin utilities */
+  .mr-auto-rtl {
+    margin-right: auto;
+  }
+
+  :is([dir="rtl"] *) .mr-auto-rtl {
+    margin-right: 0;
+    margin-left: auto;
+  }
+
+  .ml-auto-rtl {
+    margin-left: auto;
+  }
+
+  :is([dir="rtl"] *) .ml-auto-rtl {
+    margin-left: 0;
+    margin-right: auto;
+  }
+
+  /* RTL-aware text alignment */
+  .text-start-rtl {
+    text-align: left;
+  }
+
+  :is([dir="rtl"] *) .text-start-rtl {
+    text-align: right;
+  }
+
+  .text-end-rtl {
+    text-align: right;
+  }
+
+  :is([dir="rtl"] *) .text-end-rtl {
+    text-align: left;
+  }
+
+  /* ================================
+     LANDING PAGE RESPONSIVE TEXT SIZING
+     ================================ */
+
+  .hero-title {
+    font-size: 2rem;
+    line-height: 1.1;
+  }
+  
+  .hero-subtitle {
+    font-size: 1.125rem;
+  }
+
+  @media (min-width: 1024px) {
+    .hero-title {
+      font-size: 3.75rem;
+      line-height: 1;
+    }
+    
+    .hero-subtitle {
+      font-size: 1.5rem;
+    }
+  }
+
+  /* ================================
+     QATAR SPECIFIC UTILITIES 
+     ================================ */
+
+  .bg-qatar-flag {
+    background: linear-gradient(to right, 
+      hsl(344 76% 31%) 0%, 
+      hsl(344 76% 31%) 25%, 
+      hsl(0 0% 100%) 25%, 
+      hsl(0 0% 100%) 100%);
+  }
+
+  .text-qatar-maroon {
+    color: hsl(344 76% 31%);
+  }
+
+  .bg-qatar-maroon {
+    background-color: hsl(344 76% 31%);
+  }
+
+  .border-qatar-maroon {
+    border-color: hsl(344 76% 31%);
+  }
+
+  /* ================================
+     DEVELOPER UTILITIES 
+     ================================ */
+
+  /* Debug mode indicator */
+  :is([data-debug="true"]) {
+    &::before {
+      content: "🐛 DEBUG MODE";
+      position: fixed;
+      top: 0;
+      right: 0;
+      background: rgb(239 68 68);
+      color: white;
+      padding: 0.25rem 0.5rem;
+      font-size: 0.75rem;
+      z-index: 9999;
+      border-radius: 0 0 0 0.25rem;
+      font-family: ui-monospace, monospace;
+    }
+  }
+
+  :is([dir="rtl"][data-debug="true"]) {
+    &::before {
+      right: auto;
+      left: 0;
+      border-radius: 0 0 0.25rem 0;
+    }
+  }
+
+  /* Environment indicator */
+  :is([data-env="development"]) {
+    &::after {
+      content: "DEV";
+      position: fixed;
+      top: 0;
+      right: 120px;
+      background: rgb(16 185 129);
+      color: white;
+      padding: 0.25rem 0.5rem;
+      font-size: 0.75rem;
+      z-index: 9999;
+      border-radius: 0 0 0.25rem 0.25rem;
+      font-family: ui-monospace, monospace;
+    }
+  }
+
+  :is([dir="rtl"][data-env="development"]) {
+    &::after {
+      right: auto;
+      left: 120px;
+    }
+  }
+
+  /* ================================
+     ACCESSIBILITY & RESPONSIVE 
+     ================================ */
+
+  /* High contrast mode support */
+  @media (prefers-contrast: high) {
+    .dashboard-card {
+      @apply border-2;
+    }
+    
+    .btn-primary {
+      @apply border-2 border-primary;
+    }
+    
+    .status-badge {
+      @apply border border-current;
+    }
+  }
+
+  /* Reduced motion support */
+  @media (prefers-reduced-motion: reduce) {
+    .dashboard-stat-icon,
+    * {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  /* Print styles for Qatar documents */
+  @media print {
+    .no-print {
+      display: none !important;
+    }
+    
+    .dashboard-card {
+      @apply border border-gray-400 shadow-none;
+    }
+    
+    .qatar-card {
+      border-left: 4px solid hsl(344 76% 31%) !important;
+    }
+    
+    /* Ensure Arabic text prints correctly */
+    [lang="ar"] {
+      font-family: 'Arial Unicode MS', 'Tahoma', serif !important;
+    }
+  }
+
+  /* Responsive font sizes */
+  @media (max-width: 640px) {
+    html {
+      font-size: 14px;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    html {
+      font-size: 16px;
+    }
+  }
+
+  @media (min-width: 1440px) {
+    html {
+      font-size: 18px;
+    }
+  }
+}
+
+/* ================================
+   CUSTOM SCROLLBAR 
+   ================================ */
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: hsl(var(--muted));
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--muted-foreground) / 0.3);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--muted-foreground) / 0.5);
+}
+
+/* RTL scrollbar positioning */
+:is([dir="rtl"] *) ::-webkit-scrollbar {
+  direction: rtl;
+}
+
+/* ================================
+   ANIMATIONS FOR QATAR ERP + LANDING PAGE
+   ================================ */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes pulse-qatar {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+@keyframes pulse-green {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 0 0 10px rgba(34, 197, 94, 0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out;
+}
+
+.animate-slide-in-right {
+  animation: slideInRight 0.3s ease-out;
+}
+
+.animate-slide-in-left {
+  animation: slideInLeft 0.3s ease-out;
+}
+
+.animate-pulse-qatar {
+  animation: pulse-qatar 2s infinite;
+}
+
+.animate-pulse-green {
+  animation: pulse-green 2s infinite;
+}
+
+/* RTL animation adjustments */
+:is([dir="rtl"] *) .animate-slide-in-right {
+  animation: slideInLeft 0.3s ease-out;
+}
+
+:is([dir="rtl"] *) .animate-slide-in-left {
+  animation: slideInRight 0.3s ease-out;
+}
+
+/* ================================
+   FOCUS MANAGEMENT FOR ACCESSIBILITY
+   ================================ */
+
+.focus-visible:focus {
+  outline: 2px solid hsl(var(--ring));
+  outline-offset: 2px;
+}
+
+/* Better focus for RTL users */
+:is([dir="rtl"] *) .focus-visible:focus {
+  outline-offset: -2px;
+}
+
+/* ================================
+   CUSTOM FILE INPUT STYLING FOR ARABIC
+   ================================ */
+
+/* Hide default file input */
+.file-input-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Custom file input button */
+.file-input-button {
+  @apply inline-flex items-center justify-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 cursor-pointer transition-colors duration-200;
+}
+
+/* Arabic file input button */
+[lang="ar"] .file-input-button {
+  direction: rtl;
+  text-align: right;
+}
+
+/* File input with custom text */
+.file-input-wrapper {
+  @apply relative inline-block;
+}
+
+.file-input-wrapper input[type="file"] {
+  @apply absolute inset-0 w-full h-full opacity-0 cursor-pointer;
+}

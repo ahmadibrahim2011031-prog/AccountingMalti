@@ -1,0 +1,19 @@
+<\!DOCTYPE html>
+<html>
+<head>
+    <title>Cache Clearer</title>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+</head>
+<body>
+    <h1>Cache Cleared</h1>
+    <p>Your browser cache has been cleared. Please go back to the main site.</p>
+    <script>
+        // Force reload of main site
+        setTimeout(() => {
+            window.location.href = '/pages/dashboard';
+        }, 2000);
+    </script>
+</body>
+</html>
