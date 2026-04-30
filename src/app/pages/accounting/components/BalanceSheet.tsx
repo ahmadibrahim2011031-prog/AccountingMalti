@@ -40,7 +40,8 @@ export function BalanceSheet() {
   const [editFormData, setEditFormData] = useState({
     name: '',
     nameAr: '',
-    accountNumber: ''
+    accountNumber: '',
+    balance: 0
   })
   const [newAccountData, setNewAccountData] = useState({
     name: '',
@@ -173,7 +174,7 @@ export function BalanceSheet() {
 
       toast.success(t('accounting.accountUpdated', 'تم تحديث الحساب بنجاح'))
       setEditingAccount(null)
-      setEditFormData({ name: '', nameAr: '', accountNumber: '' })
+      setEditFormData({ name: '', nameAr: '', accountNumber: '', balance: 0 })
       fetchAccounts()
     } catch (error) {
       console.error('Error updating account:', error)
@@ -186,7 +187,8 @@ export function BalanceSheet() {
     setEditFormData({
       name: account.name,
       nameAr: account.nameAr || '',
-      accountNumber: account.accountNumber
+      accountNumber: account.accountNumber,
+      balance: Number(account.balance) || 0
     })
   }
 
@@ -544,9 +546,6 @@ export function BalanceSheet() {
         <DialogContent className="max-w-2xl">
           <DialogHeader>
             <DialogTitle>{t('accounting.editAccount', 'تعديل الحساب')}</DialogTitle>
-            <p className="text-sm text-gray-600 mt-2">
-              {t('accounting.balanceFromJournalEntries', 'الرصيد يُحسب تلقائياً من قيود اليومية')}
-            </p>
           </DialogHeader>
 
           <div className="grid grid-cols-2 gap-4">
@@ -570,6 +569,18 @@ export function BalanceSheet() {
                 value={editFormData.accountNumber}
                 onChange={(e) => setEditFormData({ ...editFormData, accountNumber: e.target.value })}
               />
+            </div>
+            <div>
+              <Label>{t('accounting.initialBalance', 'الرصيد الافتتاحي')}</Label>
+              <Input
+                type="number"
+                value={editFormData.balance}
+                onChange={(e) => setEditFormData({ ...editFormData, balance: parseFloat(e.target.value) || 0 })}
+                placeholder="0"
+              />
+              <p className="text-xs text-gray-500 mt-1">
+                {language === 'ar' ? 'الرصيد قبل أي قيود يومية' : 'Balance before any journal entries'}
+              </p>
             </div>
           </div>
 
