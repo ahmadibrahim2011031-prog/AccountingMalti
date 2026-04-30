@@ -209,7 +209,7 @@ export function Sidebar({ isOpen, onToggle, locale, dict, isRTL }: SidebarProps)
                 "font-bold text-gray-900 leading-tight truncate",
                 language === 'ar' ? "text-lg" : "text-lg"
               )}>
-                {language === 'ar' ? 'مالتي للمحاسبة' : 'Malti Accounting'}
+                {language === 'ar' ? 'أحمد الحاتو' : 'Ahmad Alhato'}
               </div>
               <div className={cn(
                 "text-gray-600 leading-tight mt-1 truncate",

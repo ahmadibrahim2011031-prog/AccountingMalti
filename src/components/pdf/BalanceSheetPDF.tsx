@@ -119,7 +119,7 @@ export const BalanceSheetPDF: React.FC<BalanceSheetPDFProps> = ({ data, dateRang
           {language === 'ar' ? 'الميزانية العمومية' : 'Balance Sheet'}
         </Text>
         <Text style={styles.subtitle}>
-          {language === 'ar' ? 'مالتي للمحاسبة' : 'Malti Accounting'}
+          {language === 'ar' ? 'أحمد الحاتو' : 'Ahmad Alhato'}
         </Text>
         <Text style={styles.dateRange}>
           {language === 'ar'

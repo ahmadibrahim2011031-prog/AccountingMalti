@@ -138,7 +138,7 @@ export const CashFlowPDF: React.FC<CashFlowPDFProps> = ({ data, dateRange, langu
           {language === 'ar' ? 'قائمة التدفقات النقدية' : 'Cash Flow Statement'}
         </Text>
         <Text style={styles.subtitle}>
-          {language === 'ar' ? 'مالتي للمحاسبة' : 'Malti Accounting'}
+          {language === 'ar' ? 'أحمد الحاتو' : 'Ahmad Alhato'}
         </Text>
         <Text style={styles.dateRange}>
           {language === 'ar'

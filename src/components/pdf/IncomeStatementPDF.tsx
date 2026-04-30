@@ -136,7 +136,7 @@ export const IncomeStatementPDF: React.FC<IncomeStatementPDFProps> = ({ data, da
           {language === 'ar' ? 'قائمة الدخل' : 'Income Statement'}
         </Text>
         <Text style={styles.subtitle}>
-          {language === 'ar' ? 'مالتي للمحاسبة' : 'Malti Accounting'}
+          {language === 'ar' ? 'أحمد الحاتو' : 'Ahmad Alhato'}
         </Text>
         <Text style={styles.dateRange}>
           {language === 'ar'

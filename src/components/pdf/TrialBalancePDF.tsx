@@ -122,7 +122,7 @@ export const TrialBalancePDF: React.FC<TrialBalancePDFProps> = ({ data, dateRang
           {language === 'ar' ? 'ميزان المراجعة' : 'Trial Balance'}
         </Text>
         <Text style={styles.subtitle}>
-          {language === 'ar' ? 'مالتي للمحاسبة' : 'Malti Accounting'}
+          {language === 'ar' ? 'أحمد الحاتو' : 'Ahmad Alhato'}
         </Text>
         <Text style={styles.dateRange}>
           {language === 'ar'
