@@ -934,12 +934,13 @@ export async function POST(request: NextRequest) {
       }
 
       case 'updateAccount': {
-        if (!data.id) {
+        const updateId = body.accountId || data?.id
+        if (!updateId) {
           return NextResponse.json({ error: 'Account ID required' }, { status: 400 })
         }
 
         const account = await prisma.accountingAccount.update({
-          where: { id: data.id },
+          where: { id: updateId },
           data: {
             name: data.name,
             nameAr: data.nameAr,
