@@ -23,9 +23,9 @@ export async function GET(
     // Get the file path from the URL
     const filePath = pathSegments.join('/')
 
-    // SECURITY: Define the allowed uploads directory
-    // Use UPLOADS_PATH env var if set, otherwise fall back to relative path
-    const uploadsDir = process.env.UPLOADS_PATH || path.resolve(process.cwd(), 'public', 'uploads')
+    // SECURITY: Define the allowed uploads directory (always resolve to absolute path)
+    const rawUploadsPath = process.env.UPLOADS_PATH || path.join('public', 'uploads')
+    const uploadsDir = path.resolve(process.cwd(), rawUploadsPath)
 
     // Construct and resolve the full file path
     const fullPath = path.resolve(uploadsDir, filePath)
