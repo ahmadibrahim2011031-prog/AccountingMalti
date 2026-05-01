@@ -102,25 +102,18 @@ export async function GET(request: NextRequest) {
           ]
         })
 
-        // Calculate actual balance from journal entries + initial balance for each account
+        // Calculate balance from journal entries only
         const accountsWithCalculatedBalance = accounts.map(account => {
-          const initialBalance = Number(account.balance)
-
-          // Calculate sum of debits and credits
           const totalDebit = account.journalEntries.reduce((sum, entry) => sum + Number(entry.debit), 0)
           const totalCredit = account.journalEntries.reduce((sum, entry) => sum + Number(entry.credit), 0)
 
           let calculatedBalance = 0
-          // ASSET accounts: Debit increases, Credit decreases → balance = initial + debit - credit
-          // LIABILITY accounts: Credit increases, Debit decreases → balance = initial + credit - debit
-          // EQUITY accounts: Credit increases, Debit decreases → balance = initial + credit - debit
           if (account.type === 'ASSET') {
-            calculatedBalance = initialBalance + totalDebit - totalCredit
+            calculatedBalance = totalDebit - totalCredit
           } else if (account.type === 'LIABILITY' || account.type === 'EQUITY') {
-            calculatedBalance = initialBalance + totalCredit - totalDebit
+            calculatedBalance = totalCredit - totalDebit
           }
 
-          // Remove journalEntries from response and add calculated balance
           const { journalEntries, ...accountData } = account
           return {
             ...accountData,
@@ -269,19 +262,14 @@ export async function GET(request: NextRequest) {
 
         // Calculate balance from initial balance + journal entries
         const accountsWithCalculatedBalance = accounts.map(account => {
-          const initialBalance = Number(account.balance ?? 0)
-
-          // Calculate sum of debits and credits
           const totalDebit = account.journalEntries.reduce((sum, entry) => sum + Number(entry.debit), 0)
           const totalCredit = account.journalEntries.reduce((sum, entry) => sum + Number(entry.credit), 0)
 
-          // DEBIT nature (Assets, Expenses): balance = initial + debit - credit
-          // CREDIT nature (Liabilities, Equity, Revenue): balance = initial + credit - debit
           let calculatedBalance = 0
           if (account.nature === 'DEBIT') {
-            calculatedBalance = initialBalance + totalDebit - totalCredit
+            calculatedBalance = totalDebit - totalCredit
           } else if (account.nature === 'CREDIT') {
-            calculatedBalance = initialBalance + totalCredit - totalDebit
+            calculatedBalance = totalCredit - totalDebit
           }
 
           const { journalEntries, ...accountData } = account
@@ -349,17 +337,13 @@ export async function GET(request: NextRequest) {
         }))
 
         // Calculate opening balance (initial balance + all entries before dateFrom)
-        const initialBalance = Number(account.balance)
-        let openingBalance = initialBalance
+        // Opening balance = sum of all journal entries before dateFrom (entries only, no initial balance field)
+        let openingBalance = 0
         if (dateFrom) {
           const priorEntries = await prisma.journalEntryDetail.findMany({
             where: {
               accountId,
-              journal: {
-                date: {
-                  lt: new Date(dateFrom)
-                }
-              }
+              journal: { date: { lt: new Date(dateFrom) } }
             }
           })
 
@@ -367,12 +351,10 @@ export async function GET(request: NextRequest) {
             return sum + Number(entry.debit) - Number(entry.credit)
           }, 0)
 
-          // For DEBIT nature accounts (assets, expenses): opening = initial + prior debits - prior credits
-          // For CREDIT nature accounts (liabilities, equity, revenue): opening = initial + prior credits - prior debits
           if (account.nature === 'DEBIT') {
-            openingBalance = initialBalance + priorMovement
+            openingBalance = priorMovement
           } else {
-            openingBalance = initialBalance - priorMovement
+            openingBalance = -priorMovement
           }
         }
 
@@ -409,22 +391,21 @@ export async function GET(request: NextRequest) {
               }
             })
 
-            // Calculate balances from initial balance + journal entries
+            // Calculate balances from journal entries only
             let assets = 0
             let liabilities = 0
             let equity = 0
 
             accounts.forEach(account => {
-              const initial = Number(account.balance)
               const totalDebit = account.journalEntries.reduce((sum, entry) => sum + Number(entry.debit), 0)
               const totalCredit = account.journalEntries.reduce((sum, entry) => sum + Number(entry.credit), 0)
 
               if (account.type === 'ASSET') {
-                assets += initial + (totalDebit - totalCredit)
+                assets += (totalDebit - totalCredit)
               } else if (account.type === 'LIABILITY') {
-                liabilities += initial + (totalCredit - totalDebit)
+                liabilities += (totalCredit - totalDebit)
               } else if (account.type === 'EQUITY') {
-                equity += initial + (totalCredit - totalDebit)
+                equity += (totalCredit - totalDebit)
               }
             })
 
@@ -497,7 +478,6 @@ export async function GET(request: NextRequest) {
                 name: true,
                 nameAr: true,
                 nature: true,
-                balance: true,
                 journalEntries: {
                   select: {
                     debit: true,
@@ -514,19 +494,17 @@ export async function GET(request: NextRequest) {
             let totalCredit = 0
 
             const accountsData = accounts.map(account => {
-              const initialBalance = Number(account.balance)
-              // Net movement from journal entries (debit - credit)
               const movement = account.journalEntries.reduce((sum, entry) => {
                 return sum + Number(entry.debit) - Number(entry.credit)
               }, 0)
 
-              // DEBIT nature: natural balance = initial + movement (debit - credit)
-              // CREDIT nature: natural balance = initial - movement (initial + credit - debit)
+              // DEBIT nature: balance = debit - credit (positive = debit column)
+              // CREDIT nature: balance = credit - debit (positive = credit column)
               let balance = 0
               if (account.nature === 'DEBIT') {
-                balance = initialBalance + movement
+                balance = movement
               } else {
-                balance = initialBalance - movement
+                balance = -movement
               }
 
               let debit = 0
@@ -790,16 +768,15 @@ export async function GET(request: NextRequest) {
           return NextResponse.json({ error: 'Account not found' }, { status: 404 })
         }
 
-        // Calculate balance = initial balance + journal movements
-        const initialBal = Number(account.balance)
+        // Calculate balance from journal entries only
         const totalDebit = account.journalEntries.reduce((sum, entry) => sum + Number(entry.debit), 0)
         const totalCredit = account.journalEntries.reduce((sum, entry) => sum + Number(entry.credit), 0)
 
         let calculatedBalance = 0
         if (account.nature === 'DEBIT') {
-          calculatedBalance = initialBal + totalDebit - totalCredit
+          calculatedBalance = totalDebit - totalCredit
         } else if (account.nature === 'CREDIT') {
-          calculatedBalance = initialBal + totalCredit - totalDebit
+          calculatedBalance = totalCredit - totalDebit
         }
 
         return NextResponse.json(convertDecimalsToNumbers({
