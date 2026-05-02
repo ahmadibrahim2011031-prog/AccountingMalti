@@ -81,26 +81,29 @@ export async function GET(request: NextRequest) {
 
     switch (type) {
       case 'balance-sheet': {
-        // Fetch all balance sheet accounts (ASSET, LIABILITY, EQUITY) with journal entries
+        // Fetch ASSET, LIABILITY, EQUITY accounts
         const accounts = await prisma.accountingAccount.findMany({
-          where: {
-            type: {
-              in: ['ASSET', 'LIABILITY', 'EQUITY']
-            },
-            isActive: true
-          },
-          include: {
-            journalEntries: {
-              select: {
-                debit: true,
-                credit: true
-              }
-            }
-          },
-          orderBy: [
-            { accountNumber: 'asc' }
-          ]
+          where: { type: { in: ['ASSET', 'LIABILITY', 'EQUITY'] }, isActive: true },
+          include: { journalEntries: { select: { debit: true, credit: true } } },
+          orderBy: [{ accountNumber: 'asc' }]
         })
+
+        // Fetch REVENUE and EXPENSE accounts to compute net income
+        const incomeAccounts = await prisma.accountingAccount.findMany({
+          where: { type: { in: ['REVENUE', 'EXPENSE'] }, isActive: true },
+          include: { journalEntries: { select: { debit: true, credit: true } } }
+        })
+
+        // Calculate net income (revenue - expenses) from journal entries
+        let totalRevenue = 0
+        let totalExpenses = 0
+        incomeAccounts.forEach(acc => {
+          const d = acc.journalEntries.reduce((s, e) => s + Number(e.debit), 0)
+          const c = acc.journalEntries.reduce((s, e) => s + Number(e.credit), 0)
+          if (acc.type === 'REVENUE') totalRevenue += (c - d)
+          else totalExpenses += (d - c)
+        })
+        const netIncome = totalRevenue - totalExpenses
 
         // Calculate balance from journal entries only
         const accountsWithCalculatedBalance = accounts.map(account => {
@@ -115,13 +118,10 @@ export async function GET(request: NextRequest) {
           }
 
           const { journalEntries, ...accountData } = account
-          return {
-            ...accountData,
-            balance: calculatedBalance
-          }
+          return { ...accountData, balance: calculatedBalance }
         })
 
-        return NextResponse.json({ accounts: accountsWithCalculatedBalance })
+        return NextResponse.json({ accounts: accountsWithCalculatedBalance, netIncome })
       }
 
       case 'income-statement': {

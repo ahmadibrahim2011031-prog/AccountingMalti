@@ -34,6 +34,7 @@ interface Account {
 export function BalanceSheet() {
   const { t, language } = useLanguage()
   const [accounts, setAccounts] = useState<Account[]>([])
+  const [netIncome, setNetIncome] = useState<number>(0)
   const [loading, setLoading] = useState(true)
   const [isAddingAccount, setIsAddingAccount] = useState(false)
   const [editingAccount, setEditingAccount] = useState<string | null>(null)
@@ -65,6 +66,7 @@ export function BalanceSheet() {
       if (!response.ok) throw new Error('Failed to fetch')
       const data = await response.json()
       setAccounts(buildAccountTree(data.accounts || []))
+      setNetIncome(data.netIncome || 0)
     } catch (error) {
       console.error('Error fetching accounts:', error)
       toast.error(t('accounting.fetchError', 'فشل في جلب البيانات'))
@@ -329,7 +331,7 @@ export function BalanceSheet() {
 
   const totalAssets = calculateTotal('ASSET')
   const totalLiabilities = calculateTotal('LIABILITY')
-  const totalEquity = calculateTotal('EQUITY')
+  const totalEquity = calculateTotal('EQUITY') + netIncome
   const totalLiabilitiesAndEquity = totalLiabilities + totalEquity
   const isBalanced = Math.abs(totalAssets - totalLiabilitiesAndEquity) < 0.01
 
@@ -470,6 +472,20 @@ export function BalanceSheet() {
             <CardContent className="p-0">
               <div className="divide-y">
                 {equityAccounts.map(account => renderAccountRow(account))}
+                {/* Net Income / Net Loss row */}
+                <div className={cn(
+                  "flex items-center justify-between px-4 py-3",
+                  netIncome >= 0 ? "bg-emerald-50" : "bg-red-50"
+                )}>
+                  <span className={cn("font-medium text-sm", netIncome >= 0 ? "text-emerald-700" : "text-red-700")}>
+                    {language === 'ar'
+                      ? (netIncome >= 0 ? 'صافي الربح (الفترة الحالية)' : 'صافي الخسارة (الفترة الحالية)')
+                      : (netIncome >= 0 ? 'Net Income (Current Period)' : 'Net Loss (Current Period)')}
+                  </span>
+                  <span className={cn("font-bold text-sm", netIncome >= 0 ? "text-emerald-700" : "text-red-700")}>
+                    {Number(Math.abs(netIncome)).toFixed(2)} {t('common.qar', 'ر.ق')}
+                  </span>
+                </div>
               </div>
 
               <div className="p-4 border-t-2 border-green-500 bg-green-50">
