@@ -131,6 +131,11 @@ function startNextServer() {
   const appRoot = getAppRoot()
   const nextBin = path.join(appRoot, 'node_modules', 'next', 'dist', 'bin', 'next')
 
+  // Persistent uploads folder — survives app updates
+  const uploadsPath = path.join(app.getPath('userData'), 'uploads')
+  if (!fs.existsSync(uploadsPath)) fs.mkdirSync(uploadsPath, { recursive: true })
+  log(`Uploads path: ${uploadsPath}`)
+
   log(`Starting Next.js from: ${appRoot}`)
   log(`Next binary exists: ${fs.existsSync(nextBin)}`)
 
@@ -143,6 +148,7 @@ function startNextServer() {
       NODE_ENV: 'production',
       NEXTAUTH_URL: `http://localhost:${PORT}`,
       NEXTAUTH_URL_INTERNAL: `http://localhost:${PORT}`,
+      UPLOADS_PATH: uploadsPath,
     },
   })
 
