@@ -88,23 +88,6 @@ export async function GET(request: NextRequest) {
           orderBy: [{ accountNumber: 'asc' }]
         })
 
-        // Fetch REVENUE and EXPENSE accounts to compute net income
-        const incomeAccounts = await prisma.accountingAccount.findMany({
-          where: { type: { in: ['REVENUE', 'EXPENSE'] }, isActive: true },
-          include: { journalEntries: { select: { debit: true, credit: true } } }
-        })
-
-        // Calculate net income (revenue - expenses) from journal entries
-        let totalRevenue = 0
-        let totalExpenses = 0
-        incomeAccounts.forEach(acc => {
-          const d = acc.journalEntries.reduce((s, e) => s + Number(e.debit), 0)
-          const c = acc.journalEntries.reduce((s, e) => s + Number(e.credit), 0)
-          if (acc.type === 'REVENUE') totalRevenue += (c - d)
-          else totalExpenses += (d - c)
-        })
-        const netIncome = totalRevenue - totalExpenses
-
         // Calculate balance from journal entries only
         const accountsWithCalculatedBalance = accounts.map(account => {
           const totalDebit = account.journalEntries.reduce((sum, entry) => sum + Number(entry.debit), 0)
@@ -121,7 +104,7 @@ export async function GET(request: NextRequest) {
           return { ...accountData, balance: calculatedBalance }
         })
 
-        return NextResponse.json({ accounts: accountsWithCalculatedBalance, netIncome })
+        return NextResponse.json({ accounts: accountsWithCalculatedBalance })
       }
 
       case 'income-statement': {
