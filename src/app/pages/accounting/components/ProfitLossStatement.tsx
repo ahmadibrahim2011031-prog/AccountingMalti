@@ -53,13 +53,13 @@ export function ProfitLossStatement() {
     nameAr: '',
     accountNumber: '',
     type: 'EXPENSE' as 'EXPENSE' | 'REVENUE',
-    expenseClassification: 'OPERATIONAL' as 'OPERATIONAL' | 'ADMINISTRATIVE' | 'MARKETING' | 'FINANCING' | 'UNCLASSIFIED'
+    expenseClassification: 'OPERATIONAL' as 'OPERATIONAL' | 'ADMINISTRATIVE' | 'MARKETING' | 'FINANCING' | 'OTHER'
   })
   const [editFormData, setEditFormData] = useState({
     name: '',
     nameAr: '',
     accountNumber: '',
-    expenseClassification: 'OPERATIONAL' as 'OPERATIONAL' | 'ADMINISTRATIVE' | 'MARKETING' | 'UNCLASSIFIED'
+    expenseClassification: 'OPERATIONAL' as 'OPERATIONAL' | 'ADMINISTRATIVE' | 'MARKETING' | 'OTHER'
   })
   const [data, setData] = useState<ProfitLossData>({
     revenue: { accounts: [], total: 0 },
@@ -122,7 +122,7 @@ export function ProfitLossStatement() {
         acc.expenseClassification === 'FINANCING'
       )
       const other = expenseAccounts.filter((acc: AccountBalance) =>
-        !acc.expenseClassification || acc.expenseClassification === 'UNCLASSIFIED'
+        !acc.expenseClassification || acc.expenseClassification === 'OTHER'
       )
 
       // Calculate totals
@@ -589,7 +589,7 @@ export function ProfitLossStatement() {
                       <Button
                         size="sm"
                         variant="outline"
-                        onClick={() => openAddDialog('EXPENSE', 'UNCLASSIFIED')}
+                        onClick={() => openAddDialog('EXPENSE', 'OTHER')}
                         className="text-xs"
                       >
                         <Plus className="w-3 h-3 ml-1" />
@@ -773,7 +773,7 @@ export function ProfitLossStatement() {
                   <option value="ADMINISTRATIVE">{t('accounting.administrative', 'إدارية وعمومية')}</option>
                   <option value="MARKETING">{t('accounting.marketing', 'تسويقية')}</option>
                   <option value="FINANCING">{t('accounting.financing', 'تمويلية')}</option>
-                  <option value="UNCLASSIFIED">{t('accounting.unclassified', 'غير مصنف')}</option>
+                  <option value="OTHER">{t('accounting.unclassified', 'غير مصنف')}</option>
                 </select>
               </div>
             )}
